@@ -1,0 +1,83 @@
+export default function Hero() {
+  return (
+    <section
+      id="hero"
+      className="relative min-h-screen flex items-center justify-center bg-[#1a1a1a] overflow-hidden"
+    >
+      {/* Background pattern */}
+      <div
+        className="absolute inset-0 opacity-5"
+        style={{
+          backgroundImage: `repeating-linear-gradient(
+            45deg,
+            #f97316 0px,
+            #f97316 1px,
+            transparent 1px,
+            transparent 60px
+          )`,
+        }}
+      />
+
+      {/* Orange accent bar */}
+      <div className="absolute left-0 top-0 bottom-0 w-1 bg-[#f97316]" />
+
+      <div className="relative max-w-7xl mx-auto px-6 py-32 grid md:grid-cols-2 gap-16 items-center">
+        {/* Text */}
+        <div>
+          <p className="text-[#f97316] font-semibold uppercase tracking-widest text-sm mb-4">
+            Building Excellence Since 2005
+          </p>
+          <h1 className="text-5xl md:text-6xl font-extrabold text-white leading-tight mb-6">
+            We Build <br />
+            <span className="text-[#f97316]">Your Vision</span>
+            <br /> Into Reality
+          </h1>
+          <p className="text-gray-400 text-lg leading-relaxed mb-10 max-w-lg">
+            Apex Construction Group delivers premium residential and commercial
+            construction services — on time, on budget, and built to last.
+          </p>
+          <div className="flex flex-wrap gap-4">
+            <a
+              href="#contact"
+              className="bg-[#f97316] hover:bg-[#ea6a0a] text-white font-semibold px-8 py-4 rounded transition-colors text-base"
+            >
+              Get a Free Quote
+            </a>
+            <a
+              href="#projects"
+              className="border border-gray-600 hover:border-[#f97316] text-gray-300 hover:text-[#f97316] font-semibold px-8 py-4 rounded transition-colors text-base"
+            >
+              View Our Work
+            </a>
+          </div>
+        </div>
+
+        {/* Stats */}
+        <div className="grid grid-cols-2 gap-6">
+          {[
+            { value: "500+", label: "Projects Completed" },
+            { value: "20+", label: "Years Experience" },
+            { value: "98%", label: "Client Satisfaction" },
+            { value: "150+", label: "Expert Team Members" },
+          ].map((stat) => (
+            <div
+              key={stat.label}
+              className="bg-[#2d2d2d] border border-gray-700 rounded-lg p-6 text-center"
+            >
+              <p className="text-4xl font-extrabold text-[#f97316]">
+                {stat.value}
+              </p>
+              <p className="text-gray-400 text-sm mt-2">{stat.label}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Scroll indicator */}
+      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-gray-500 text-xs">
+        <span>Scroll Down</span>
+        <div className="w-px h-12 bg-gradient-to-b from-gray-500 to-transparent" />
+      </div>
+    </section>
+  );
+}
