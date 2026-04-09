@@ -2,23 +2,37 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import type { LocaleTranslations, Locale } from "@/lib/i18n";
 
-const navLinks = [
-  { label: "Services", href: "#services" },
-  { label: "Projects", href: "#projects" },
-  { label: "About", href: "#about" },
-  { label: "Contact", href: "#contact" },
-];
+type Props = {
+  locale: Locale;
+  t: LocaleTranslations["nav"];
+};
 
-export default function Navbar() {
+export default function Navbar({ locale, t }: Props) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  const navLinks = [
+    { label: t.services, href: "#services" },
+    { label: t.projects, href: "#projects" },
+    { label: t.about, href: "#about" },
+    { label: t.contact, href: "#contact" },
+  ];
+
+  const otherLocale: Locale = locale === "en" ? "fr" : "en";
+
+  function switchLocale() {
+    router.push(`/${otherLocale}`);
+  }
 
   return (
     <header
@@ -28,12 +42,12 @@ export default function Navbar() {
     >
       <nav className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
         {/* Logo */}
-        <Link href="#hero" className="flex items-center gap-2 group">
+        <Link href={`/${locale}`} className="flex items-center gap-2 group">
           <span className="w-8 h-8 bg-[#f97316] rounded flex items-center justify-center font-bold text-white text-sm">
-            A
+            L
           </span>
           <span className="text-white font-bold text-lg tracking-wide">
-            Apex <span className="text-[#f97316]">Construction</span>
+            LBL <span className="text-[#f97316]">RenoBuilt</span>
           </span>
         </Link>
 
@@ -54,29 +68,47 @@ export default function Navbar() {
               href="#contact"
               className="bg-[#f97316] hover:bg-[#ea6a0a] text-white px-5 py-2 rounded text-sm font-semibold transition-colors"
             >
-              Get a Quote
+              {t.quote}
             </a>
+          </li>
+          {/* Language switcher */}
+          <li>
+            <button
+              onClick={switchLocale}
+              className="text-gray-400 hover:text-white border border-gray-600 hover:border-gray-400 px-3 py-1 rounded text-xs font-semibold uppercase tracking-wider transition-colors"
+              aria-label={`Switch to ${otherLocale === "fr" ? "French" : "English"}`}
+            >
+              {otherLocale.toUpperCase()}
+            </button>
           </li>
         </ul>
 
         {/* Mobile hamburger */}
-        <button
-          className="md:hidden text-white p-2"
-          onClick={() => setMenuOpen(!menuOpen)}
-          aria-label="Toggle menu"
-        >
-          <div className="w-6 flex flex-col gap-1.5">
-            <span
-              className={`block h-0.5 bg-white transition-all ${menuOpen ? "rotate-45 translate-y-2" : ""}`}
-            />
-            <span
-              className={`block h-0.5 bg-white transition-all ${menuOpen ? "opacity-0" : ""}`}
-            />
-            <span
-              className={`block h-0.5 bg-white transition-all ${menuOpen ? "-rotate-45 -translate-y-2" : ""}`}
-            />
-          </div>
-        </button>
+        <div className="md:hidden flex items-center gap-3">
+          <button
+            onClick={switchLocale}
+            className="text-gray-400 hover:text-white border border-gray-600 hover:border-gray-400 px-2 py-1 rounded text-xs font-semibold uppercase tracking-wider transition-colors"
+          >
+            {otherLocale.toUpperCase()}
+          </button>
+          <button
+            className="text-white p-2"
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-label="Toggle menu"
+          >
+            <div className="w-6 flex flex-col gap-1.5">
+              <span
+                className={`block h-0.5 bg-white transition-all ${menuOpen ? "rotate-45 translate-y-2" : ""}`}
+              />
+              <span
+                className={`block h-0.5 bg-white transition-all ${menuOpen ? "opacity-0" : ""}`}
+              />
+              <span
+                className={`block h-0.5 bg-white transition-all ${menuOpen ? "-rotate-45 -translate-y-2" : ""}`}
+              />
+            </div>
+          </button>
+        </div>
       </nav>
 
       {/* Mobile menu */}
@@ -100,7 +132,7 @@ export default function Navbar() {
                 className="inline-block bg-[#f97316] hover:bg-[#ea6a0a] text-white px-5 py-2 rounded text-sm font-semibold transition-colors"
                 onClick={() => setMenuOpen(false)}
               >
-                Get a Quote
+                {t.quote}
               </a>
             </li>
           </ul>

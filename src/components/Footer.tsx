@@ -1,4 +1,8 @@
-export default function Footer() {
+import type { LocaleTranslations } from "@/lib/i18n";
+
+type Props = { t: LocaleTranslations["footer"] };
+
+export default function Footer({ t }: Props) {
   const year = new Date().getFullYear();
 
   return (
@@ -9,31 +13,25 @@ export default function Footer() {
           <div className="md:col-span-2">
             <div className="flex items-center gap-2 mb-4">
               <span className="w-8 h-8 bg-[#f97316] rounded flex items-center justify-center font-bold text-white text-sm">
-                A
+                L
               </span>
               <span className="text-white font-bold text-lg tracking-wide">
-                Apex <span className="text-[#f97316]">Construction</span>
+                LBL <span className="text-[#f97316]">RenoBuilt</span>
               </span>
             </div>
-            <p className="text-sm leading-relaxed max-w-xs">
-              Building excellence across Texas and beyond. Residential,
-              commercial, and industrial construction since 2005.
-            </p>
+            <p className="text-sm leading-relaxed max-w-xs">{t.description}</p>
           </div>
 
           {/* Quick links */}
           <div>
             <h4 className="text-white font-semibold mb-4 text-sm uppercase tracking-wider">
-              Quick Links
+              {t.quick_links}
             </h4>
             <ul className="flex flex-col gap-2 text-sm">
-              {["Services", "Projects", "About", "Contact"].map((item) => (
-                <li key={item}>
-                  <a
-                    href={`#${item.toLowerCase()}`}
-                    className="hover:text-[#f97316] transition-colors"
-                  >
-                    {item}
+              {t.links.map((link) => (
+                <li key={link.href}>
+                  <a href={link.href} className="hover:text-[#f97316] transition-colors">
+                    {link.label}
                   </a>
                 </li>
               ))}
@@ -43,7 +41,7 @@ export default function Footer() {
           {/* Contact */}
           <div>
             <h4 className="text-white font-semibold mb-4 text-sm uppercase tracking-wider">
-              Contact
+              {t.contact_title}
             </h4>
             <ul className="flex flex-col gap-2 text-sm">
               <li>
@@ -52,8 +50,11 @@ export default function Footer() {
                 </a>
               </li>
               <li>
-                <a href="mailto:hello@apexconstruction.com" className="hover:text-[#f97316] transition-colors">
-                  hello@apexconstruction.com
+                <a
+                  href="mailto:hello@lblrenobuilt.com"
+                  className="hover:text-[#f97316] transition-colors"
+                >
+                  hello@lblrenobuilt.com
                 </a>
               </li>
               <li>1200 Congress Ave, Suite 400</li>
@@ -63,10 +64,10 @@ export default function Footer() {
         </div>
 
         <div className="border-t border-gray-800 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-sm">
-          <p>&copy; {year} Apex Construction Group. All rights reserved.</p>
           <p>
-            Licensed &amp; Insured &mdash; TX Contractor License #TX-2005-8841
+            &copy; {year} LBL RenoBuilt. {t.rights}
           </p>
+          <p>{t.license}</p>
         </div>
       </div>
     </footer>
